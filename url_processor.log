@@ -1,0 +1,31 @@
+2025-02-28 00:55:03,719 - INFO - Starting Flask application...
+2025-02-28 00:55:03,816 - WARNING -  * Debugger is active!
+2025-02-28 00:55:03,850 - INFO -  * Debugger PIN: 728-735-237
+2025-02-28 00:55:25,606 - INFO - 127.0.0.1 - - [28/Feb/2025 00:55:25] "GET / HTTP/1.1" 200 -
+2025-02-28 00:55:30,513 - INFO - Extracted 8 URLs from text
+2025-02-28 00:55:34,808 - INFO - Extracted 8 URLs from text
+2025-02-28 00:55:36,224 - ERROR - Failed to fetch metadata for https://journal.ussh.vnu.edu.vn/files/journals/2/articles/11960/submission/original/11960-71617-1-SM.html: <urlopen error [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1006)>
+2025-02-28 00:55:37,147 - INFO - Extracted 8 URLs from text
+2025-02-28 00:55:39,706 - INFO - Extracted 8 URLs from text
+2025-02-28 00:55:43,135 - ERROR - Error categorizing https://www.magistertekniksipil.janabadra.ac.id: The read operation timed out
+2025-02-28 00:55:46,831 - ERROR - Failed to fetch metadata for https://spm-belmawa-ptvp.kemdikbud.go.id/forum/diskusi/b2d53j58: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1006)>
+2025-02-28 00:55:55,073 - ERROR - Failed to fetch metadata for http://portal.widyamandala.ac.id/jurnal/index.ph: HTTP Error 404: Not Found
+2025-02-28 00:55:55,076 - INFO - Request processed in 24.56 seconds
+2025-02-28 00:55:55,078 - INFO - 127.0.0.1 - - [28/Feb/2025 00:55:55] "POST /process HTTP/1.1" 200 -
+2025-02-28 00:55:57,255 - ERROR - Failed to fetch metadata for https://journal.ussh.vnu.edu.vn/files/journals/2/articles/11960/submission/original/11960-71617-1-SM.html: <urlopen error [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1006)>
+2025-02-28 00:55:59,984 - ERROR - Failed to fetch metadata for https://spm-belmawa-ptvp.kemdikbud.go.id/forum/diskusi/b2d53j58: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1006)>
+2025-02-28 00:56:05,203 - ERROR - Failed to fetch metadata for http://portal.widyamandala.ac.id/jurnal/index.ph: HTTP Error 404: Not Found
+2025-02-28 00:56:05,205 - INFO - Request processed in 30.40 seconds
+2025-02-28 00:56:05,207 - INFO - 127.0.0.1 - - [28/Feb/2025 00:56:05] "POST /process HTTP/1.1" 200 -
+2025-02-28 00:56:07,232 - ERROR - Failed to fetch metadata for https://journal.ussh.vnu.edu.vn/files/journals/2/articles/11960/submission/original/11960-71617-1-SM.html: <urlopen error [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1006)>
+2025-02-28 00:56:09,976 - ERROR - Failed to fetch metadata for https://spm-belmawa-ptvp.kemdikbud.go.id/forum/diskusi/b2d53j58: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1006)>
+2025-02-28 00:56:15,081 - ERROR - Failed to fetch metadata for http://portal.widyamandala.ac.id/jurnal/index.ph: HTTP Error 404: Not Found
+2025-02-28 00:56:15,084 - INFO - Request processed in 37.94 seconds
+2025-02-28 00:56:15,210 - INFO - 127.0.0.1 - - [28/Feb/2025 00:56:15] "POST /process HTTP/1.1" 200 -
+2025-02-28 00:56:17,105 - ERROR - Failed to fetch metadata for https://journal.ussh.vnu.edu.vn/files/journals/2/articles/11960/submission/original/11960-71617-1-SM.html: <urlopen error [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1006)>
+2025-02-28 00:56:19,907 - ERROR - Failed to fetch metadata for https://spm-belmawa-ptvp.kemdikbud.go.id/forum/diskusi/b2d53j58: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1006)>
+2025-02-28 00:56:25,190 - ERROR - Failed to fetch metadata for http://portal.widyamandala.ac.id/jurnal/index.ph: HTTP Error 404: Not Found
+2025-02-28 00:56:25,192 - INFO - Request processed in 45.49 seconds
+2025-02-28 00:56:25,194 - INFO - 127.0.0.1 - - [28/Feb/2025 00:56:25] "POST /process HTTP/1.1" 200 -
+2025-02-28 00:57:00,990 - INFO -  * Detected change in 'C:\\Users\\facebook\\CascadeProjects\\comeback\\app.py', reloading
+2025-02-28 00:57:00,992 - INFO -  * Detected change in 'C:\\Users\\facebook\\CascadeProjects\\comeback\\app.py', reloading

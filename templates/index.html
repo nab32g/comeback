@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlink Organizer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background-color: #4a6fdc;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #3a5dc9;
+        }
+        .link-item {
+            margin-bottom: 8px;
+            word-break: break-all;
+        }
+        .copy-btn {
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        .copy-all-btn {
+            margin-bottom: 10px;
+        }
+        .edu-color { color: #28a745; }
+        .gov-color { color: #dc3545; }
+        .org-color { color: #fd7e14; }
+        .com-color { color: #007bff; }
+        .net-color { color: #6f42c1; }
+        .other-color { color: #6c757d; }
+        .stats {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Backlink Organizer</h1>
+            <p class="lead">Paste your links below (in any format) and they'll be organized by type with duplicates removed.</p>
+            <div class="alert alert-info">
+                <strong>Pro Tip:</strong> This tool accurately identifies complete URLs in their original format, keeping exactly what you pasted.
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Input Links</div>
+                    <div class="card-body">
+                        <textarea id="input-text" class="form-control" rows="10" placeholder="Paste your links here... (any format is fine)"></textarea>
+                        <button id="process-btn" class="btn btn-primary mt-3">Organize Links</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="results" class="row" style="display: none;">
+            <div class="col-md-12 mb-4">
+                <div class="stats" id="link-stats">
+                    <h5>Summary:</h5>
+                    <div id="stats-content"></div>
+                </div>
+                <button id="export-btn" class="btn btn-success">Export All Categories to CSV</button>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header edu-color">Educational (.edu)</div>
+                    <div class="card-body">
+                        <button id="copy-edu-btn" class="btn btn-sm btn-outline-success copy-all-btn">Copy All</button>
+                        <div id="edu-links" class="link-container"></div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header gov-color">Government (.gov)</div>
+                    <div class="card-body">
+                        <button id="copy-gov-btn" class="btn btn-sm btn-outline-danger copy-all-btn">Copy All</button>
+                        <div id="gov-links" class="link-container"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header org-color">Organization (.org)</div>
+                    <div class="card-body">
+                        <button id="copy-org-btn" class="btn btn-sm btn-outline-warning copy-all-btn">Copy All</button>
+                        <div id="org-links" class="link-container"></div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header com-color">Commercial (.com)</div>
+                    <div class="card-body">
+                        <button id="copy-com-btn" class="btn btn-sm btn-outline-primary copy-all-btn">Copy All</button>
+                        <div id="com-links" class="link-container"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header net-color">Network (.net)</div>
+                    <div class="card-body">
+                        <button id="copy-net-btn" class="btn btn-sm btn-outline-purple copy-all-btn">Copy All</button>
+                        <div id="net-links" class="link-container"></div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header other-color">Other Domains</div>
+                    <div class="card-body">
+                        <button id="copy-other-btn" class="btn btn-sm btn-outline-secondary copy-all-btn">Copy All</button>
+                        <div id="other-links" class="link-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const processBtn = document.getElementById('process-btn');
+            const inputText = document.getElementById('input-text');
+            const resultsDiv = document.getElementById('results');
+            const exportBtn = document.getElementById('export-btn');
+            const statsContent = document.getElementById('stats-content');
+            
+            // Process button click handler
+            processBtn.addEventListener('click', function() {
+                const text = inputText.value.trim();
+                
+                if (!text) {
+                    alert('Please paste some links first!');
+                    return;
+                }
+                
+                // Show loading state
+                processBtn.disabled = true;
+                processBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+                
+                // Send the text to the backend
+                fetch('/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: text })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            throw new Error(err.error || 'Server error');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayResults(data);
+                    // Reset button state
+                    processBtn.disabled = false;
+                    processBtn.textContent = 'Organize Links';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert(error.message || 'An error occurred while processing the links.');
+                    // Reset button state
+                    processBtn.disabled = false;
+                    processBtn.textContent = 'Organize Links';
+                });
+            });
+            
+            // Function to display results
+            function displayResults(data) {
+                // Show results div
+                resultsDiv.style.display = 'flex';
+                
+                // Clear previous results
+                document.querySelectorAll('.link-container').forEach(container => {
+                    container.innerHTML = '';
+                });
+                
+                // Update stats
+                updateStats(data);
+                
+                // Display links by category
+                Object.keys(data).forEach(category => {
+                    if (category === 'duplicate_summary') return;
+                    
+                    const container = document.getElementById(`${category}-links`);
+                    
+                    if (data[category].length === 0) {
+                        container.innerHTML = '<p class="text-muted">No links found</p>';
+                    } else {
+                        data[category].forEach(link => {
+                            const linkDiv = document.createElement('div');
+                            linkDiv.className = 'link-item';
+                            
+                            const linkAnchor = document.createElement('a');
+                            linkAnchor.href = link;
+                            linkAnchor.target = '_blank';
+                            linkAnchor.textContent = link;
+                            
+                            const copyBtn = document.createElement('button');
+                            copyBtn.className = 'btn btn-sm btn-light copy-btn';
+                            copyBtn.textContent = 'Copy';
+                            copyBtn.addEventListener('click', function() {
+                                navigator.clipboard.writeText(link)
+                                    .then(() => {
+                                        const originalText = copyBtn.textContent;
+                                        copyBtn.textContent = 'Copied!';
+                                        setTimeout(() => {
+                                            copyBtn.textContent = originalText;
+                                        }, 1500);
+                                    });
+                            });
+                            
+                            linkDiv.appendChild(linkAnchor);
+                            linkDiv.appendChild(copyBtn);
+                            container.appendChild(linkDiv);
+                        });
+                    }
+                });
+                
+                // Set up copy all buttons
+                Object.keys(data).forEach(category => {
+                    if (category === 'duplicate_summary') return;
+                    
+                    const copyBtn = document.getElementById(`copy-${category}-btn`);
+                    
+                    copyBtn.addEventListener('click', function() {
+                        const links = data[category].join('\n');
+                        navigator.clipboard.writeText(links)
+                            .then(() => {
+                                const originalText = copyBtn.textContent;
+                                copyBtn.textContent = 'Copied!';
+                                setTimeout(() => {
+                                    copyBtn.textContent = originalText;
+                                }, 1500);
+                            });
+                    });
+                });
+            }
+            
+            // Function to update stats
+            function updateStats(data) {
+                // Calculate total links
+                const totalLinks = Object.keys(data)
+                    .filter(key => key !== 'duplicate_summary')
+                    .reduce((sum, category) => sum + data[category].length, 0);
+                
+                // Create stats HTML
+                let statsHTML = `<p><strong>Total Unique Links Found:</strong> ${totalLinks}</p>`;
+                
+                // Add category breakdown
+                statsHTML += '<p><strong>By Category:</strong> ';
+                const categories = [
+                    { name: 'edu', label: 'Educational', color: 'text-success' },
+                    { name: 'gov', label: 'Government', color: 'text-danger' },
+                    { name: 'org', label: 'Organization', color: 'text-warning' },
+                    { name: 'com', label: 'Commercial', color: 'text-primary' },
+                    { name: 'net', label: 'Network', color: 'text-purple' },
+                    { name: 'other', label: 'Other', color: 'text-secondary' }
+                ];
+                
+                statsHTML += categories
+                    .map(cat => `<span class="${cat.color}">${cat.label}: ${data[cat.name].length}</span>`)
+                    .join(' | ');
+                
+                statsHTML += '</p>';
+                
+                // Update the stats container
+                statsContent.innerHTML = statsHTML;
+            }
+            
+            // Export to CSV functionality
+            exportBtn.addEventListener('click', function() {
+                // Get all displayed links
+                const categories = ['edu', 'gov', 'org', 'com', 'net', 'other'];
+                let csvContent = 'Category,URL\n';
+                
+                categories.forEach(category => {
+                    const links = document.getElementById(`${category}-links`);
+                    const linkElements = links.querySelectorAll('a');
+                    
+                    linkElements.forEach(link => {
+                        // Escape quotes in URLs
+                        const escapedUrl = link.href.replace(/"/g, '""');
+                        csvContent += `${category},"${escapedUrl}"\n`;
+                    });
+                });
+                
+                // Create and download CSV file
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.setAttribute('hidden', '');
+                a.setAttribute('href', url);
+                a.setAttribute('download', 'organized_links.csv');
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        });
+    </script>
+</body>
+</html>
